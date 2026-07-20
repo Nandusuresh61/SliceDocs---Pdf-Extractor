@@ -8,4 +8,6 @@ export interface IStorageService {
     file: Buffer,
     fileName: string
   ): Promise<UploadResult>;
+  
+  download(url: string): Promise<Buffer>;
 }
