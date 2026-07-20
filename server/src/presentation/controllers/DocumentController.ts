@@ -6,9 +6,10 @@ import { HTTP_STATUS } from "../../shared/constants/HttpStatus";
 import { ERROR_CODE } from "../../shared/constants/ErrorCode";
 import { ApiResponse } from "../../shared/response/responseHandler";
 import { asyncHandler } from "../utils/asyncHandler";
+import { DocumentMapper } from "../../application/mappers/DocumentMapper";
 
 export class DocumentController {
-  constructor(private readonly _uploadPdfUseCase: UploadPdfUseCase) {}
+  constructor(private readonly _uploadPdfUseCase: UploadPdfUseCase) { }
 
   upload = asyncHandler(async (req: Request, res: Response) => {
     if (!req.file) {
@@ -26,9 +27,11 @@ export class DocumentController {
       size: req.file.size,
     });
 
+    const documentResponse = DocumentMapper.toResponse(document);
+
     return ApiResponse.success(
       res,
-      document,
+      documentResponse,
       APP_MESSAGE.PDF_UPLOADED,
       HTTP_STATUS.CREATED,
     );
