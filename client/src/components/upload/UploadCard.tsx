@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { APP_ROUTES } from "@/constants/routes";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import UploadArea from "./UploadArea";
@@ -9,6 +11,7 @@ import type { Document } from "@/types/document.types";
 import { uploadPdf } from "@/services/document.api";
 
 export default function UploadCard() {
+    const navigate = useNavigate();
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
     const [isUploading, setIsUploading] = useState(false);
@@ -29,6 +32,10 @@ export default function UploadCard() {
             toast.success(response.message);
 
             setSelectedFile(null);
+            
+            if (response.data && response.data.id) {
+                navigate(APP_ROUTES.DOCUMENT_PREVIEW.replace(':id', response.data.id));
+            }
         } catch (error) {
             console.error(error);
 

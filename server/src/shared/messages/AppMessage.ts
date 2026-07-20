@@ -14,4 +14,16 @@ export const APP_MESSAGE = {
   TOKEN_REFRESHED: "Token refreshed successfully",
   AUTH_REQUIRED: "Authentication required",
   INVALID_TOKEN: "Invalid or expired token",
+
+  // Document messages
+  DOCUMENT_NOT_FOUND: "Document not found",
+  UNAUTHORIZED_DOCUMENT_ACCESS: "Unauthorized access to document",
+  NO_PAGES_SELECTED: "No pages selected for extraction.",
+  FETCH_PDF_FAILED: "Failed to fetch PDF from URL",
+  RETRIEVE_PDF_FAILED: "Could not retrieve the original PDF file.",
+  EXTRACTION_FAILED: "Failed to extract pages from the PDF. Ensure page numbers are valid.",
+  
+  FILES_RETRIEVED: "Files retrieved successfully",
+  DOCUMENT_RETRIEVED: "Document retrieved successfully",
+  PAGES_EXTRACTED: "Pages extracted successfully",
 } as const;

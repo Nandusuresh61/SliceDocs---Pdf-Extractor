@@ -18,4 +18,22 @@ router.get(
   documentController.getMyFiles,
 );
 
+router.get(
+  "/:id",
+  requireAuth,
+  documentController.getById,
+);
+
+router.post(
+  "/:id/extract",
+  requireAuth,
+  documentController.extract,
+);
+
+router.get(
+  "/:id/download",
+  requireAuth,
+  documentController.download,
+);
+
 export default router;

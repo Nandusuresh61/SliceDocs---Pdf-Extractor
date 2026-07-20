@@ -30,7 +30,21 @@ export class MongoDocumentRepository implements IDocumentRepository {
   }
 
   async findById(id: string): Promise<Document | null> {
-    throw new Error("Method not implemented.");
+    const doc = await DocumentModel.findById(id);
+    if (!doc) return null;
+
+    return new Document({
+      id: doc.id,
+      ownerId: doc.ownerId?.toString(),
+      originalName: doc.originalName,
+      storageId: doc.storageId,
+      url: doc.url,
+      pageCount: doc.pageCount,
+      size: doc.size,
+      type: doc.type as DocumentType,
+      createdAt: doc.createdAt,
+      updatedAt: doc.updatedAt,
+    });
   }
 
   async findAllByOwner(ownerId: string): Promise<Document[]> {

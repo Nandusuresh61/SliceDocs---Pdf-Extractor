@@ -1,6 +1,7 @@
 export const APP_ROUTES = {
   HOME: '/',
   LOGIN: '/login',
+  DOCUMENT_PREVIEW: '/document/:id',
 } as const;
 
 export const API_ROUTES = {

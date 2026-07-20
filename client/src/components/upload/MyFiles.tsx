@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { getMyFiles } from "@/services/document.api";
 import type { Document } from "@/types/document.types";
 import { toast } from "sonner";
@@ -6,6 +7,7 @@ import { toast } from "sonner";
 export default function MyFiles() {
   const [files, setFiles] = useState<Document[]>([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchFiles = async () => {
@@ -43,24 +45,25 @@ export default function MyFiles() {
       <h2 className="text-xl font-bold text-slate-800 mb-4">My Files</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {files.map((file) => (
-          <div key={file.id} className="bg-white p-4 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+          <div 
+            key={file.id} 
+            onClick={() => navigate(`/document/${file.id}`)}
+            className="bg-white p-4 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition-all cursor-pointer hover:border-blue-300 group"
+          >
             <div className="flex items-start justify-between">
               <div className="flex-1 truncate">
-                <h3 className="font-semibold text-slate-700 truncate" title={file.originalName}>
+                <h3 className="font-semibold text-slate-700 truncate group-hover:text-blue-600 transition-colors" title={file.originalName}>
                   {file.originalName}
                 </h3>
                 <p className="text-xs text-slate-500 mt-1">
                   {(file.size / 1024 / 1024).toFixed(2)} MB • {file.pageCount} pages
                 </p>
               </div>
-              <a
-                href={file.url}
-                target="_blank"
-                rel="noreferrer"
-                className="text-blue-600 hover:text-blue-700 text-sm font-medium ml-4 bg-blue-50 px-3 py-1 rounded-full transition-colors"
+              <span
+                className="text-blue-600 text-sm font-medium ml-4 bg-blue-50 px-3 py-1 rounded-full group-hover:bg-blue-100 transition-colors"
               >
-                View
-              </a>
+                Preview
+              </span>
             </div>
           </div>
         ))}
