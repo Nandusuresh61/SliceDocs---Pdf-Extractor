@@ -1,7 +1,7 @@
 import { DocumentProps } from "../types/DocumentType";
 
 export class Document {
-  constructor(private readonly props: DocumentProps) {}
+  constructor(private readonly props: DocumentProps) { }
 
   get id() {
     return this.props.id;
