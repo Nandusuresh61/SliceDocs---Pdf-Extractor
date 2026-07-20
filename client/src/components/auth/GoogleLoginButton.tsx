@@ -3,6 +3,7 @@ import { useAuthStore } from '../../store/useAuthStore';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'sonner';
+import { APP_ROUTES, API_ROUTES } from '../../constants/routes';
 
 export default function GoogleLoginButton() {
   const login = useAuthStore((state) => state.login);
@@ -20,7 +21,7 @@ export default function GoogleLoginButton() {
           }
 
           const response = await axios.post(
-            `${import.meta.env.VITE_API_URL}/auth/google`,
+            `${import.meta.env.VITE_API_URL}${API_ROUTES.AUTH.GOOGLE}`,
             { idToken: credential },
             { withCredentials: true }
           );
@@ -28,7 +29,7 @@ export default function GoogleLoginButton() {
           if (response.data.success) {
             login(response.data.data);
             toast.success('Successfully logged in');
-            navigate('/');
+            navigate(APP_ROUTES.HOME);
           }
         } catch (error) {
           console.error(error);

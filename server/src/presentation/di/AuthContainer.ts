@@ -1,5 +1,6 @@
 import { AuthController } from "../controllers/AuthController";
 import { GoogleAuthUseCase } from "../../application/usecase/auth/GoogleAuthUseCase";
+import { RefreshTokenUseCase } from "../../application/usecase/auth/RefreshTokenUseCase";
 import { MongoUserRepository } from "../../infrastructure/repositories/UserRepository";
 import { JwtService } from "../../infrastructure/auth/JwtService";
 import { GoogleOAuthService } from "../../infrastructure/auth/GoogleOAuthService";
@@ -14,4 +15,9 @@ const googleAuthUseCase = new GoogleAuthUseCase(
   tokenService
 );
 
-export const authController = new AuthController(googleAuthUseCase);
+const refreshTokenUseCase = new RefreshTokenUseCase(
+  userRepository,
+  tokenService
+);
+
+export const authController = new AuthController(googleAuthUseCase, refreshTokenUseCase);

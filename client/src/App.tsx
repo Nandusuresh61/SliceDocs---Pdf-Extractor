@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import { useAuthStore } from "./store/useAuthStore";
 import { Toaster } from "sonner";
+import { APP_ROUTES } from "./constants/routes";
 
 function App() {
   const { isAuthenticated } = useAuthStore();
@@ -12,12 +13,12 @@ function App() {
       <Toaster position="top-center" richColors />
       <Routes>
         <Route 
-          path="/login" 
-          element={!isAuthenticated ? <Login /> : <Navigate to="/" />} 
+          path={APP_ROUTES.LOGIN} 
+          element={!isAuthenticated ? <Login /> : <Navigate to={APP_ROUTES.HOME} />} 
         />
         <Route 
-          path="/" 
-          element={isAuthenticated ? <Home /> : <Navigate to="/login" />} 
+          path={APP_ROUTES.HOME} 
+          element={isAuthenticated ? <Home /> : <Navigate to={APP_ROUTES.LOGIN} />} 
         />
       </Routes>
     </>
