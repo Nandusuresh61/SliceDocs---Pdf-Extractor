@@ -1,7 +1,9 @@
 import { IDocumentRepository } from "../../interface/IDocumentRepository";
 import { Document } from "../../../domain/entities/Document";
 
-export class GetMyFilesUseCase {
+import { IGetMyFilesUseCase } from "../../interface/usecase/IGetMyFilesUseCase";
+
+export class GetMyFilesUseCase implements IGetMyFilesUseCase {
   constructor(private readonly documentRepository: IDocumentRepository) {}
 
   async execute(ownerId: string): Promise<Document[]> {

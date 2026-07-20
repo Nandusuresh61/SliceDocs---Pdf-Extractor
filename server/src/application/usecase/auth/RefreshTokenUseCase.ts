@@ -5,7 +5,9 @@ import { HTTP_STATUS } from "../../../shared/constants/HttpStatus";
 import { ERROR_CODE } from "../../../shared/constants/ErrorCode";
 import { APP_MESSAGE } from "../../../shared/messages/AppMessage";
 
-export class RefreshTokenUseCase {
+import { IRefreshTokenUseCase } from "../../interface/usecase/IRefreshTokenUseCase";
+
+export class RefreshTokenUseCase implements IRefreshTokenUseCase {
   constructor(
     private readonly userRepository: IUserRepository,
     private readonly tokenService: ITokenService

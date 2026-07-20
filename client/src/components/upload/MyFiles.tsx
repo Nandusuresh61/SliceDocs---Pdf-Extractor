@@ -48,11 +48,11 @@ export default function MyFiles() {
           <div 
             key={file.id} 
             onClick={() => navigate(`/document/${file.id}`)}
-            className="bg-white p-4 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition-all cursor-pointer hover:border-blue-300 group"
+            className="bg-white p-4 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition-all cursor-pointer hover:border-purple-300 group"
           >
             <div className="flex items-start justify-between">
               <div className="flex-1 truncate">
-                <h3 className="font-semibold text-slate-700 truncate group-hover:text-blue-600 transition-colors" title={file.originalName}>
+                <h3 className="font-semibold text-slate-700 truncate group-hover:text-purple-600 transition-colors" title={file.originalName}>
                   {file.originalName}
                 </h3>
                 <p className="text-xs text-slate-500 mt-1">
@@ -60,7 +60,7 @@ export default function MyFiles() {
                 </p>
               </div>
               <span
-                className="text-blue-600 text-sm font-medium ml-4 bg-blue-50 px-3 py-1 rounded-full group-hover:bg-blue-100 transition-colors"
+                className="text-purple-600 text-sm font-medium ml-4 bg-purple-50 px-3 py-1 rounded-full group-hover:bg-purple-100 transition-colors"
               >
                 Preview
               </span>

@@ -3,7 +3,9 @@ import { IUserRepository } from "../../interface/IUserRepository";
 import { ITokenService } from "../../interface/ITokenService";
 import { User } from "../../../domain/entities/User";
 
-export class GoogleAuthUseCase {
+import { IGoogleAuthUseCase } from "../../interface/usecase/IGoogleAuthUseCase";
+
+export class GoogleAuthUseCase implements IGoogleAuthUseCase {
   constructor(
     private readonly oauthService: IOAuthService,
     private readonly userRepository: IUserRepository,

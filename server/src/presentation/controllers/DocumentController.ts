@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import { AuthRequest } from "../middlewares/AuthMiddleware";
-import { UploadPdfUseCase } from "../../application/usecase/pdf/UploadPdfUseCase";
-import { GetMyFilesUseCase } from "../../application/usecase/pdf/GetMyFilesUseCase";
-import { ExtractPdfUseCase } from "../../application/usecase/pdf/ExtractPdfUseCase";
-import { GetDocumentByIdUseCase } from "../../application/usecase/pdf/GetDocumentByIdUseCase";
-import { DownloadPdfUseCase } from "../../application/usecase/pdf/DownloadPdfUseCase";
+import { IUploadPdfUseCase } from "../../application/interface/usecase/IUploadPdfUseCase";
+import { IGetMyFilesUseCase } from "../../application/interface/usecase/IGetMyFilesUseCase";
+import { IExtractPdfUseCase } from "../../application/interface/usecase/IExtractPdfUseCase";
+import { IGetDocumentByIdUseCase } from "../../application/interface/usecase/IGetDocumentByIdUseCase";
+import { IDownloadPdfUseCase } from "../../application/interface/usecase/IDownloadPdfUseCase";
 import { AppError } from "../../shared/errors/AppError";
 import { APP_MESSAGE } from "../../shared/messages/AppMessage";
 import { HTTP_STATUS } from "../../shared/constants/HttpStatus";
@@ -15,11 +15,11 @@ import { DocumentMapper } from "../../application/mappers/DocumentMapper";
 
 export class DocumentController {
   constructor(
-    private readonly _uploadPdfUseCase: UploadPdfUseCase,
-    private readonly _getMyFilesUseCase: GetMyFilesUseCase,
-    private readonly _extractPdfUseCase: ExtractPdfUseCase,
-    private readonly _getDocumentByIdUseCase: GetDocumentByIdUseCase,
-    private readonly _downloadPdfUseCase: DownloadPdfUseCase
+    private readonly _uploadPdfUseCase: IUploadPdfUseCase,
+    private readonly _getMyFilesUseCase: IGetMyFilesUseCase,
+    private readonly _extractPdfUseCase: IExtractPdfUseCase,
+    private readonly _getDocumentByIdUseCase: IGetDocumentByIdUseCase,
+    private readonly _downloadPdfUseCase: IDownloadPdfUseCase
   ) { }
 
   upload = asyncHandler(async (req: AuthRequest, res: Response) => {

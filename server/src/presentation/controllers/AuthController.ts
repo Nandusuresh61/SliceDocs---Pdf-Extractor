@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { GoogleAuthUseCase } from "../../application/usecase/auth/GoogleAuthUseCase";
-import { RefreshTokenUseCase } from "../../application/usecase/auth/RefreshTokenUseCase";
+import { IGoogleAuthUseCase } from "../../application/interface/usecase/IGoogleAuthUseCase";
+import { IRefreshTokenUseCase } from "../../application/interface/usecase/IRefreshTokenUseCase";
 import { UserMapper } from "../../application/mappers/UserMapper";
 import { AppError } from "../../shared/errors/AppError";
 import { APP_MESSAGE } from "../../shared/messages/AppMessage";
@@ -11,8 +11,8 @@ import { asyncHandler } from "../utils/asyncHandler";
 
 export class AuthController {
   constructor(
-    private readonly googleAuthUseCase: GoogleAuthUseCase,
-    private readonly refreshTokenUseCase: RefreshTokenUseCase
+    private readonly googleAuthUseCase: IGoogleAuthUseCase,
+    private readonly refreshTokenUseCase: IRefreshTokenUseCase
   ) {}
 
   googleLogin = asyncHandler(async (req: Request, res: Response) => {

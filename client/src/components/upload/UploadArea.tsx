@@ -38,7 +38,7 @@ export default function UploadArea({
 
             <div
                 onClick={handleClick}
-                className="flex min-h-60 cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 transition hover:border-blue-500 hover:bg-blue-50"
+                className="flex min-h-60 cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 transition hover:border-purple-500 hover:bg-purple-50"
             >
                 <UploadCloud className="mb-4 h-12 w-12 text-slate-400" />
 

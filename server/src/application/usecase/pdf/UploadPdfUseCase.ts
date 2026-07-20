@@ -5,7 +5,9 @@ import { IStorageService } from "../../interface/IStorageService";
 import { UploadPdfDto } from "../../dto/UploadPdfDto";
 import { DocumentType } from "../../../domain/types/DocumentType";
 
-export class UploadPdfUseCase {
+import { IUploadPdfUseCase } from "../../interface/usecase/IUploadPdfUseCase";
+
+export class UploadPdfUseCase implements IUploadPdfUseCase {
   constructor(
     private readonly documentRepository: IDocumentRepository,
     private readonly storageService: IStorageService

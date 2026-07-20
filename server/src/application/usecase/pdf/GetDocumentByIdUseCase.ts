@@ -3,7 +3,9 @@ import { IDocumentRepository } from "../../interface/IDocumentRepository";
 import { AppError } from "../../../shared/errors/AppError";
 import { APP_MESSAGE } from "../../../shared/messages/AppMessage";
 
-export class GetDocumentByIdUseCase {
+import { IGetDocumentByIdUseCase } from "../../interface/usecase/IGetDocumentByIdUseCase";
+
+export class GetDocumentByIdUseCase implements IGetDocumentByIdUseCase {
   constructor(private readonly documentRepository: IDocumentRepository) {}
 
   async execute(documentId: string, ownerId: string): Promise<Document> {

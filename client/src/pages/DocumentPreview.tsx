@@ -4,17 +4,11 @@ import {
     ArrowLeft, 
     FileText, 
     CheckCircle2, 
-    LayoutGrid, 
-    Maximize2, 
-    Download, 
-    Trash2, 
-    Search, 
-    Sparkles,
-    RotateCw,
     Loader2
 } from "lucide-react";
 import { APP_ROUTES } from "@/constants/routes";
 import { Button } from "@/components/ui/button";
+import Navbar from "@/components/ui/Navbar";
 import { toast } from "sonner";
 import { getDocumentById, extractPages, downloadDocument } from "@/services/document.api";
 import type { Document as DocumentType } from "@/types/document.types";
@@ -89,10 +83,9 @@ export default function DocumentPreview() {
             
             // Trigger download of the newly generated PDF
             const generatedDoc = response.data;
-            if (generatedDoc && generatedDoc.url) {
-                // Fetch the file and create a blob to force download
-                const fileRes = await fetch(generatedDoc.url);
-                const blob = await fileRes.blob();
+            if (generatedDoc && generatedDoc.id) {
+                // Fetch the file through the backend to get a Blob for download
+                const blob = await downloadDocument(generatedDoc.id);
                 const downloadUrl = window.URL.createObjectURL(blob);
                 const link = window.document.createElement('a');
                 link.href = downloadUrl;
@@ -122,14 +115,14 @@ export default function DocumentPreview() {
         return (
             <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-6">
                 <div className="flex space-x-2">
-                    <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-                    <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-                    <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce"></div>
+                    <div className="w-3 h-3 bg-purple-500 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                    <div className="w-3 h-3 bg-purple-500 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                    <div className="w-3 h-3 bg-purple-500 rounded-full animate-bounce"></div>
                 </div>
                 <p className="text-slate-500 font-medium">Rendering document...</p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 w-full max-w-6xl mt-8 px-6">
-                    {Array.from({ length: 10 }).map((_, i) => (
-                        <div key={i} className="aspect-[1/1.414] bg-slate-200 rounded-xl animate-pulse shadow-sm"></div>
+                <div className="flex flex-col items-center gap-8 w-full max-w-5xl mt-8 px-6">
+                    {Array.from({ length: 3 }).map((_, i) => (
+                        <div key={i} className="w-full max-w-3xl aspect-[1/1.414] bg-slate-200 rounded-xl animate-pulse shadow-sm"></div>
                     ))}
                 </div>
             </div>
@@ -139,8 +132,8 @@ export default function DocumentPreview() {
     return (
         <div className="min-h-screen bg-slate-50 flex flex-col font-sans">
             {/* Header */}
-            <header className="sticky top-0 z-40 bg-white border-b border-slate-200 shadow-sm px-4 md:px-6 h-16 flex items-center justify-between">
-                <div className="flex items-center space-x-4">
+            <Navbar 
+                leftActions={
                     <button 
                         onClick={() => navigate(APP_ROUTES.HOME)}
                         className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-600"
@@ -148,16 +141,10 @@ export default function DocumentPreview() {
                     >
                         <ArrowLeft className="w-5 h-5" />
                     </button>
-                    
-                    <div className="hidden sm:flex items-center space-x-2 font-bold text-lg text-slate-800 border-r border-slate-200 pr-4">
-                        <div className="bg-blue-600 text-white p-1 rounded">
-                            <Sparkles className="w-4 h-4" />
-                        </div>
-                        <span>SliceDocs</span>
-                    </div>
-                    
+                }
+                titleContent={
                     <div className="flex items-center space-x-3 sm:pl-2">
-                        <div className="bg-blue-100 p-2 rounded-lg text-blue-600">
+                        <div className="bg-purple-100 p-2 rounded-lg text-purple-600">
                             <FileText className="w-5 h-5" />
                         </div>
                         <div>
@@ -171,16 +158,8 @@ export default function DocumentPreview() {
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div className="flex items-center space-x-4">
-
-
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-500 text-white flex items-center justify-center font-medium text-sm shadow-sm cursor-pointer">
-                        US
-                    </div>
-                </div>
-            </header>
+                }
+            />
 
             {/* Main Content Area */}
             <main className="flex-1 overflow-y-auto w-full flex flex-col items-center py-8 pb-32">
@@ -199,7 +178,7 @@ export default function DocumentPreview() {
                             className="w-full"
                             onLoadError={(error) => console.error("PDF Load Error:", error)}
                         >
-                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                            <div className="flex flex-col items-center gap-10">
                                 {Array.from({ length: document.pageCount }).map((_, i) => {
                                     const pageNumber = i + 1;
                                     const isSelected = selectedPages.has(pageNumber);
@@ -209,13 +188,13 @@ export default function DocumentPreview() {
                                             key={pageNumber}
                                             onClick={() => handleTogglePage(pageNumber)}
                                             className={`
-                                                group relative cursor-pointer rounded-xl transition-all duration-200 ease-out
-                                                ${isSelected ? 'ring-2 ring-blue-500 shadow-md transform scale-[1.02]' : 'hover:shadow-lg hover:scale-[1.01]'}
+                                                group relative cursor-pointer rounded-xl transition-all duration-200 ease-out w-full max-w-3xl mx-auto
+                                                ${isSelected ? 'ring-2 ring-purple-500 shadow-md transform scale-[1.01]' : 'hover:shadow-lg hover:scale-[1.005]'}
                                             `}
                                         >
                                             <div className={`
                                                 aspect-[1/1.414] rounded-xl overflow-hidden bg-white border relative
-                                                ${isSelected ? 'border-blue-500 bg-blue-50/30' : 'border-slate-200'}
+                                                ${isSelected ? 'border-purple-500 bg-purple-50/30' : 'border-slate-200'}
                                             `}>
                                                 
                                                 <div className="w-full h-full flex items-center justify-center bg-slate-50 pointer-events-none">
@@ -223,6 +202,7 @@ export default function DocumentPreview() {
                                                         pageNumber={pageNumber} 
                                                         renderTextLayer={false}
                                                         renderAnnotationLayer={false}
+                                                        width={1000}
                                                         className="w-full h-full flex items-center justify-center [&>canvas]:max-w-full [&>canvas]:!w-full [&>canvas]:!h-auto [&>canvas]:object-contain"
                                                     />
                                                 </div>
@@ -235,14 +215,14 @@ export default function DocumentPreview() {
                                                 {/* Selection Indicator */}
                                                 <div className={`
                                                     absolute top-3 left-3 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-200 z-10
-                                                    ${isSelected ? 'bg-blue-500 border-blue-500' : 'border-slate-300 bg-white/50 group-hover:border-blue-400'}
+                                                    ${isSelected ? 'bg-purple-500 border-purple-500' : 'border-slate-300 bg-white/50 group-hover:border-purple-400'}
                                                 `}>
                                                     {isSelected && <CheckCircle2 className="w-4 h-4 text-white" />}
                                                 </div>
                                                 
                                                 {/* Selected Overlay */}
                                                 {isSelected && (
-                                                    <div className="absolute inset-0 bg-blue-500/10 pointer-events-none z-0"></div>
+                                                    <div className="absolute inset-0 bg-purple-500/10 pointer-events-none z-0"></div>
                                                 )}
                                             </div>
                                         </div>
@@ -263,7 +243,7 @@ export default function DocumentPreview() {
                 <div className="max-w-5xl mx-auto px-4 md:px-6 h-20 flex items-center justify-between">
                     <div className="flex flex-col md:flex-row md:items-center md:space-x-6">
                         <div className="text-sm font-medium text-slate-700 mb-1 md:mb-0">
-                            <span className="text-blue-600 font-bold text-base">{selectedPages.size}</span>
+                            <span className="text-purple-600 font-bold text-base">{selectedPages.size}</span>
                             <span className="text-slate-500 font-normal"> / {document?.pageCount || 0} pages selected</span>
                         </div>
                         
@@ -292,7 +272,7 @@ export default function DocumentPreview() {
                         <Button 
                             onClick={handleExtract}
                             disabled={selectedPages.size === 0 || isExtracting}
-                            className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-5 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:active:scale-100 disabled:hover:shadow-md flex items-center space-x-2"
+                            className="bg-purple-600 hover:bg-purple-700 text-white font-medium px-6 py-5 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:active:scale-100 disabled:hover:shadow-md flex items-center space-x-2"
                         >
                             {isExtracting ? (
                                 <>

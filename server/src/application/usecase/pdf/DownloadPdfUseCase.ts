@@ -3,7 +3,9 @@ import { IStorageService } from "../../interface/IStorageService";
 import { AppError } from "../../../shared/errors/AppError";
 import { APP_MESSAGE } from "../../../shared/messages/AppMessage";
 
-export class DownloadPdfUseCase {
+import { IDownloadPdfUseCase } from "../../interface/usecase/IDownloadPdfUseCase";
+
+export class DownloadPdfUseCase implements IDownloadPdfUseCase {
   constructor(
     private readonly documentRepository: IDocumentRepository,
     private readonly storageService: IStorageService

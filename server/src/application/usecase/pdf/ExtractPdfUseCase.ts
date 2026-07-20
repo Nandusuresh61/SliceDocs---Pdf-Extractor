@@ -6,7 +6,9 @@ import { DocumentType } from "../../../domain/types/DocumentType";
 import { AppError } from "../../../shared/errors/AppError";
 import { APP_MESSAGE } from "../../../shared/messages/AppMessage";
 
-export class ExtractPdfUseCase {
+import { IExtractPdfUseCase } from "../../interface/usecase/IExtractPdfUseCase";
+
+export class ExtractPdfUseCase implements IExtractPdfUseCase {
   constructor(
     private readonly documentRepository: IDocumentRepository,
     private readonly storageService: IStorageService
