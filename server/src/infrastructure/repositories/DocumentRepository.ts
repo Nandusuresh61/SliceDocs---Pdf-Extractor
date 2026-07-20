@@ -34,7 +34,19 @@ export class MongoDocumentRepository implements IDocumentRepository {
   }
 
   async findAllByOwner(ownerId: string): Promise<Document[]> {
-    throw new Error("Method not implemented.");
+    const documents = await DocumentModel.find({ ownerId });
+    return documents.map(doc => new Document({
+      id: doc.id,
+      ownerId: doc.ownerId?.toString(),
+      originalName: doc.originalName,
+      storageId: doc.storageId,
+      url: doc.url,
+      pageCount: doc.pageCount,
+      size: doc.size,
+      type: doc.type as DocumentType,
+      createdAt: doc.createdAt,
+      updatedAt: doc.updatedAt,
+    }));
   }
 
   async delete(id: string): Promise<void> {

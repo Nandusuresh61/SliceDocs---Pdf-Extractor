@@ -1,5 +1,6 @@
 import { DocumentController } from "../controllers/DocumentController";
 import { UploadPdfUseCase } from "../../application/usecase/pdf/UploadPdfUseCase"; 
+import { GetMyFilesUseCase } from "../../application/usecase/pdf/GetMyFilesUseCase";
 
 import { MongoDocumentRepository } from "../../infrastructure/repositories/DocumentRepository"; 
 import { CloudinaryStorageService } from "../../infrastructure/storage/CloudinaryStorageService";
@@ -13,6 +14,9 @@ const uploadPdfUseCase = new UploadPdfUseCase(
   storageService
 );
 
+const getMyFilesUseCase = new GetMyFilesUseCase(documentRepository);
+
 export const documentController = new DocumentController(
-  uploadPdfUseCase
+  uploadPdfUseCase,
+  getMyFilesUseCase
 );
