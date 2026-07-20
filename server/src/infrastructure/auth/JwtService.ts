@@ -3,19 +3,19 @@ import { ITokenService } from "../../application/interface/ITokenService";
 import { env } from "../../config/env";
 
 export class JwtService implements ITokenService {
-  generateAccessToken(payload: any): string {
+  generateAccessToken(payload: Record<string, unknown>): string {
     return jwt.sign(payload, env.JWT_ACCESS_SECRET, { expiresIn: "15m" });
   }
 
-  generateRefreshToken(payload: any): string {
+  generateRefreshToken(payload: Record<string, unknown>): string {
     return jwt.sign(payload, env.JWT_REFRESH_SECRET, { expiresIn: "7d" });
   }
 
-  verifyAccessToken(token: string): any {
-    return jwt.verify(token, env.JWT_ACCESS_SECRET);
+  verifyAccessToken(token: string): Record<string, unknown> {
+    return jwt.verify(token, env.JWT_ACCESS_SECRET) as Record<string, unknown>;
   }
 
-  verifyRefreshToken(token: string): any {
-    return jwt.verify(token, env.JWT_REFRESH_SECRET);
+  verifyRefreshToken(token: string): Record<string, unknown> {
+    return jwt.verify(token, env.JWT_REFRESH_SECRET) as Record<string, unknown>;
   }
 }

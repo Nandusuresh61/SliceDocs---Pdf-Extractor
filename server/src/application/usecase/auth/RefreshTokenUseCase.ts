@@ -18,10 +18,10 @@ export class RefreshTokenUseCase implements IRefreshTokenUseCase {
       throw new AppError(APP_MESSAGE.REFRESH_TOKEN_REQUIRED, HTTP_STATUS.UNAUTHORIZED, ERROR_CODE.UNAUTHORIZED);
     }
 
-    let decoded: any;
+    let decoded: { id: string; [key: string]: unknown };
     try {
-      decoded = this.tokenService.verifyRefreshToken(token);
-    } catch (error) {
+      decoded = this.tokenService.verifyRefreshToken(token) as { id: string; [key: string]: unknown };
+    } catch (_error) {
       throw new AppError(APP_MESSAGE.INVALID_REFRESH_TOKEN, HTTP_STATUS.UNAUTHORIZED, ERROR_CODE.UNAUTHORIZED);
     }
 

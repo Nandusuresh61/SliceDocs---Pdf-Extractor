@@ -25,7 +25,7 @@ export class DownloadPdfUseCase implements IDownloadPdfUseCase {
     try {
       const buffer = await this.storageService.download(document.url);
       return { buffer, originalName: document.originalName };
-    } catch (error) {
+    } catch (_error) {
       throw new AppError(APP_MESSAGE.RETRIEVE_PDF_FAILED, 500);
     }
   }

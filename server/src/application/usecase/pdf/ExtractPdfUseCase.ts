@@ -32,7 +32,7 @@ export class ExtractPdfUseCase implements IExtractPdfUseCase {
     let pdfBuffer: Buffer;
     try {
       pdfBuffer = await this.storageService.download(document.url);
-    } catch (error) {
+    } catch (_error) {
       throw new AppError(APP_MESSAGE.RETRIEVE_PDF_FAILED, 500);
     }
 
@@ -50,7 +50,7 @@ export class ExtractPdfUseCase implements IExtractPdfUseCase {
       for (const copiedPage of copiedPages) {
         newPdf.addPage(copiedPage);
       }
-    } catch (error) {
+    } catch (_error) {
       throw new AppError(APP_MESSAGE.EXTRACTION_FAILED, 400);
     }
 

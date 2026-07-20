@@ -63,7 +63,7 @@ export class MongoDocumentRepository implements IDocumentRepository {
     }));
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(_id: string): Promise<void> {
     throw new Error("Method not implemented.");
   }
 }

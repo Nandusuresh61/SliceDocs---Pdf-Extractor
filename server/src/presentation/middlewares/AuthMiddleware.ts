@@ -6,7 +6,7 @@ import { JwtService } from "../../infrastructure/auth/JwtService";
 import { APP_MESSAGE } from "../../shared/messages/AppMessage";
 
 export interface AuthRequest extends Request {
-  user?: any;
+  user?: { id: string; [key: string]: unknown };
 }
 
 const jwtService = new JwtService();
@@ -29,10 +29,10 @@ export const requireAuth = (
   }
 
   try {
-    const decoded = jwtService.verifyAccessToken(token);
+    const decoded = jwtService.verifyAccessToken(token) as { id: string; [key: string]: unknown };
     req.user = decoded;
     next();
-  } catch (error) {
+  } catch (_error) {
     return next(
       new AppError(
         APP_MESSAGE.INVALID_TOKEN,

@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 import { AuthRequest } from "../middlewares/AuthMiddleware";
 import { IUploadPdfUseCase } from "../../application/interface/usecase/IUploadPdfUseCase";
 import { IGetMyFilesUseCase } from "../../application/interface/usecase/IGetMyFilesUseCase";
