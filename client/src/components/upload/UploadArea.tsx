@@ -26,6 +26,22 @@ export default function UploadArea({
         onFileSelect(file);
     };
 
+    const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+    };
+
+    const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const file = e.dataTransfer.files?.[0];
+        
+        if (!file) return;
+        
+        onFileSelect(file);
+    };
+
     return (
         <>
             <input
@@ -38,6 +54,8 @@ export default function UploadArea({
 
             <div
                 onClick={handleClick}
+                onDragOver={handleDragOver}
+                onDrop={handleDrop}
                 className="flex min-h-60 cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 transition hover:border-purple-500 hover:bg-purple-50"
             >
                 <UploadCloud className="mb-4 h-12 w-12 text-slate-400" />

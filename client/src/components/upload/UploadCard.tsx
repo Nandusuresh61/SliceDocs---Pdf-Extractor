@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { APP_ROUTES } from "@/constants/routes";
+import { AxiosError } from "axios";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import UploadArea from "./UploadArea";
@@ -17,6 +18,16 @@ export default function UploadCard() {
     const [isUploading, setIsUploading] = useState(false);
 
     const [document, setDocument] = useState<Document | null>(null);
+
+    const handleFileSelect = (file: File | null) => {
+        if (file) {
+            if (file.type !== "application/pdf") {
+                toast.warning("Please upload a valid PDF file.");
+                return;
+            }
+        }
+        setSelectedFile(file);
+    };
 
     const handleUpload = async () => {
         if (!selectedFile) return;
@@ -39,7 +50,11 @@ export default function UploadCard() {
         } catch (error) {
             console.error(error);
 
-            toast.error("Failed to upload PDF.");
+            if (error instanceof AxiosError) {
+                toast.error(error.response?.data?.message || "Failed to upload PDF.");
+            } else {
+                toast.error((error as Error).message || "Failed to upload PDF.");
+            }
         } finally {
             setIsUploading(false);
         }
@@ -57,7 +72,7 @@ export default function UploadCard() {
             <CardContent className="space-y-6">
                 <UploadArea
                     selectedFile={selectedFile}
-                    onFileSelect={setSelectedFile}
+                    onFileSelect={handleFileSelect}
                 />
 
                 <UploadButton
