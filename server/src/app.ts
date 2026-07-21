@@ -4,6 +4,7 @@ import AuthRoutes from './presentation/routes/AuthRoutes';
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { env } from "./config/env";
+import { errorMiddleware } from "./presentation/middlewares/ErrorMiddleware";
 const app = express();
 
 app.use(
@@ -20,5 +21,6 @@ app.use(cookieParser());
 app.use('/api/documents', DocumentRoutes);
 app.use('/api/auth', AuthRoutes);
 
+app.use(errorMiddleware);
 
 export default app;
