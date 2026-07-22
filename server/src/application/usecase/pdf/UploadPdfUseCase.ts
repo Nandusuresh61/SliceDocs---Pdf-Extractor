@@ -9,15 +9,15 @@ import { IUploadPdfUseCase } from "../../interface/usecase/IUploadPdfUseCase";
 
 export class UploadPdfUseCase implements IUploadPdfUseCase {
   constructor(
-    private readonly documentRepository: IDocumentRepository,
-    private readonly storageService: IStorageService
+    private readonly _documentRepository: IDocumentRepository,
+    private readonly _storageService: IStorageService
   ) {}
 
   async execute(input: UploadPdfDto): Promise<Document> {
     const pdf = await PDFDocument.load(input.file);
     const pageCount = pdf.getPageCount();
 
-    const uploadedFile = await this.storageService.upload(
+    const uploadedFile = await this._storageService.upload(
       input.file,
       input.originalName
     );
@@ -32,7 +32,7 @@ export class UploadPdfUseCase implements IUploadPdfUseCase {
       type: DocumentType.ORIGINAL,
     });
 
-    const savedDocument = await this.documentRepository.save(document);
+    const savedDocument = await this._documentRepository.save(document);
 
     return savedDocument;
   }

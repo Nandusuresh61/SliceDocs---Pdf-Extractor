@@ -7,15 +7,15 @@ import { IGoogleAuthUseCase } from "../../interface/usecase/IGoogleAuthUseCase";
 
 export class GoogleAuthUseCase implements IGoogleAuthUseCase {
   constructor(
-    private readonly oauthService: IOAuthService,
-    private readonly userRepository: IUserRepository,
-    private readonly tokenService: ITokenService
+    private readonly _oauthService: IOAuthService,
+    private readonly _userRepository: IUserRepository,
+    private readonly _tokenService: ITokenService
   ) {}
 
   async execute(idToken: string) {
-    const googleUser = await this.oauthService.verifyGoogleToken(idToken);
+    const googleUser = await this._oauthService.verifyGoogleToken(idToken);
 
-    let user = await this.userRepository.findByEmail(googleUser.email);
+    let user = await this._userRepository.findByEmail(googleUser.email);
     if (!user) {
       user = new User({
         email: googleUser.email,
@@ -23,12 +23,12 @@ export class GoogleAuthUseCase implements IGoogleAuthUseCase {
         avatar: googleUser.avatar,
         googleId: googleUser.googleId,
       });
-      user = await this.userRepository.save(user);
+      user = await this._userRepository.save(user);
     }
 
     const tokenPayload = { id: user.id, email: user.email };
-    const accessToken = this.tokenService.generateAccessToken(tokenPayload);
-    const refreshToken = this.tokenService.generateRefreshToken(tokenPayload);
+    const accessToken = this._tokenService.generateAccessToken(tokenPayload);
+    const refreshToken = this._tokenService.generateRefreshToken(tokenPayload);
 
     return { user, accessToken, refreshToken };
   }

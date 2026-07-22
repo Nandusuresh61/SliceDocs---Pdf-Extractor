@@ -11,8 +11,8 @@ import { asyncHandler } from "../utils/asyncHandler";
 
 export class AuthController {
   constructor(
-    private readonly googleAuthUseCase: IGoogleAuthUseCase,
-    private readonly refreshTokenUseCase: IRefreshTokenUseCase
+    private readonly _googleAuthUseCase: IGoogleAuthUseCase,
+    private readonly _refreshTokenUseCase: IRefreshTokenUseCase
   ) {}
 
   googleLogin = asyncHandler(async (req: Request, res: Response) => {
@@ -26,7 +26,7 @@ export class AuthController {
       );
     }
 
-    const { user, accessToken, refreshToken } = await this.googleAuthUseCase.execute(idToken);
+    const { user, accessToken, refreshToken } = await this._googleAuthUseCase.execute(idToken);
 
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
@@ -69,7 +69,7 @@ export class AuthController {
       );
     }
 
-    const { user, accessToken: newAccessToken, refreshToken: newRefreshToken } = await this.refreshTokenUseCase.execute(refreshToken);
+    const { user, accessToken: newAccessToken, refreshToken: newRefreshToken } = await this._refreshTokenUseCase.execute(refreshToken);
 
     res.cookie("accessToken", newAccessToken, {
       httpOnly: true,

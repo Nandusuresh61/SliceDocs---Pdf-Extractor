@@ -9,8 +9,8 @@ import { IRefreshTokenUseCase } from "../../interface/usecase/IRefreshTokenUseCa
 
 export class RefreshTokenUseCase implements IRefreshTokenUseCase {
   constructor(
-    private readonly userRepository: IUserRepository,
-    private readonly tokenService: ITokenService
+    private readonly _userRepository: IUserRepository,
+    private readonly _tokenService: ITokenService
   ) {}
 
   async execute(token: string) {
@@ -20,19 +20,19 @@ export class RefreshTokenUseCase implements IRefreshTokenUseCase {
 
     let decoded: { id: string; [key: string]: unknown };
     try {
-      decoded = this.tokenService.verifyRefreshToken(token) as { id: string; [key: string]: unknown };
+      decoded = this._tokenService.verifyRefreshToken(token) as { id: string; [key: string]: unknown };
     } catch (_error) {
       throw new AppError(APP_MESSAGE.INVALID_REFRESH_TOKEN, HTTP_STATUS.UNAUTHORIZED, ERROR_CODE.UNAUTHORIZED);
     }
 
-    const user = await this.userRepository.findById(decoded.id);
+    const user = await this._userRepository.findById(decoded.id);
     if (!user) {
       throw new AppError(APP_MESSAGE.USER_NOT_FOUND, HTTP_STATUS.UNAUTHORIZED, ERROR_CODE.UNAUTHORIZED);
     }
 
     const tokenPayload = { id: user.id, email: user.email };
-    const accessToken = this.tokenService.generateAccessToken(tokenPayload);
-    const refreshToken = this.tokenService.generateRefreshToken(tokenPayload);
+    const accessToken = this._tokenService.generateAccessToken(tokenPayload);
+    const refreshToken = this._tokenService.generateRefreshToken(tokenPayload);
 
     return { user, accessToken, refreshToken };
   }
