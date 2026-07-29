@@ -8,6 +8,7 @@ import { HTTP_STATUS } from "../../shared/constants/HttpStatus";
 import { ERROR_CODE } from "../../shared/constants/ErrorCode";
 import { ApiResponse } from "../../shared/response/responseHandler";
 import { asyncHandler } from "../utils/asyncHandler";
+import { env } from "../../config/env";
 
 export class AuthController {
   constructor(
@@ -32,14 +33,14 @@ export class AuthController {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
-      maxAge: 15 * 60 * 1000, // 15 minutes
+      maxAge: env.ACCESS_TOKEN_MAX_AGE,
     });
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      maxAge: env.REFRESH_TOKEN_MAX_AGE,
     });
 
     const userResponse = UserMapper.toResponse(user);
@@ -75,14 +76,14 @@ export class AuthController {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
-      maxAge: 15 * 60 * 1000,
+      maxAge: env.ACCESS_TOKEN_MAX_AGE,
     });
 
     res.cookie("refreshToken", newRefreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+      maxAge: env.REFRESH_TOKEN_MAX_AGE,
     });
 
     const userResponse = UserMapper.toResponse(user);

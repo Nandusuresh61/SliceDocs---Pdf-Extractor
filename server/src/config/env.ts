@@ -19,4 +19,7 @@ export const env = {
     AWS_S3_BUCKET_NAME: process.env.AWS_S3_BUCKET_NAME || "",
 
     CLIENT_URL: process.env.CLIENT_URL || "http://localhost:5173",
+
+    ACCESS_TOKEN_MAX_AGE: parseInt(process.env.ACCESS_TOKEN_MAX_AGE || "", 10) || 15 * 60 * 1000,
+    REFRESH_TOKEN_MAX_AGE: parseInt(process.env.REFRESH_TOKEN_MAX_AGE || "", 10) || 7 * 24 * 60 * 60 * 1000,
 };
