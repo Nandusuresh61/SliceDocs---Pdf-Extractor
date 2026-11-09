@@ -13,6 +13,7 @@ export class ExtractPdfUseCase implements IExtractPdfUseCase {
   constructor(
     private readonly _documentRepository: IDocumentRepository,
     private readonly _storageService: IStorageService
+    
   ) {}
 
   async execute(documentId: string, ownerId: string, selectedPages: number[]): Promise<Document> {
