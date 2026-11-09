@@ -15,6 +15,7 @@ export class ExtractPdfUseCase implements IExtractPdfUseCase {
     private readonly _storageService: IStorageService
   ) {}
 
+  
   async execute(documentId: string, ownerId: string, selectedPages: number[]): Promise<Document> {
     if (!selectedPages || selectedPages.length === 0) {
       throw new AppError(APP_MESSAGE.NO_PAGES_SELECTED, HTTP_STATUS.BAD_REQUEST);
